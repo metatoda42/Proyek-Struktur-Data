@@ -111,7 +111,8 @@ int main(){
 					cout<<"Masukan jumlah yang di donor darah (liter): ";cin>>temp2.jumlah;cin.ignore();
 
 					push(temp2);
-					cout<<"Input Berhasil: ";
+					cout<<"Input Berhasil!\n";
+					
 					cout<<"ID: "<<stack.darah[stack.top].id<<endl;
 					cout<<"Jumlah: "<<stack.darah[stack.top].jumlah<<endl;
 					cin.ignore();
@@ -189,9 +190,8 @@ void cekdarah(typeinfo tako){
 	bantu=awal;
 	while(bantu!=NULL){
 		i=0;
-		if(temp3[i]==bantu->info.id){
-			cout<<stack.darah[i].jumlah;
-			total+=stack.darah[i].jumlah;
+		if(cek(temp3[i],bantu->info.id)==true){
+			total+=stack.darah[i+1].jumlah;
 			i++;
 		} 
 		bantu=bantu->next;
@@ -225,7 +225,7 @@ void detailreserve(typestack chicken){
 			cout<<"Nama: "<<bantu->info.nama<<endl;
 			cout<<"Umur: "<<bantu->info.umur<<endl;
 			cout<<"Golongan: "<<bantu->info.golongan<<endl;
-			cout<<"Jumlah: "<<chicken.darah[i].jumlah<<" liter."<<endl;
+			cout<<"Jumlah: "<<chicken.darah[i+1].jumlah<<" liter."<<endl;
 			i++;
 		}
 		bantu=bantu->next;
