@@ -4,6 +4,7 @@
 
 #define max 50
 // hallo selamat pagi
+// Ohayo!
 using namespace std;
 
 struct datadarah{
