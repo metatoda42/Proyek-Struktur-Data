@@ -223,12 +223,21 @@ void detailreserve(typestack chicken){
 	typeptr bantu;
 	bantu=awal;
 	int i=0;
+	int liter=0;
 	while(bantu!=NULL){
-		if(cekgolongan(bantu->info.id,chicken.darah[i].id)&&(bantu->info.umur>=17&&bantu->info.umur<=60)){
+		if(cekgolongan(bantu->info.id,chicken.darah[i+1].id)&&(bantu->info.umur>=17&&bantu->info.umur<=60)){
+			liter+=chicken.darah[i+1].jumlah;
+			i++;
+		}
+		bantu=bantu->next;
+	}
+	bantu=awal;
+	while(bantu!=NULL){
+		if(cekgolongan(bantu->info.id,chicken.darah[i+1].id)&&(bantu->info.umur>=17&&bantu->info.umur<=60)){
 			cout<<"Nama: "<<bantu->info.nama<<endl;
 			cout<<"Umur: "<<bantu->info.umur<<endl;
 			cout<<"Golongan: "<<bantu->info.golongan<<endl;
-			cout<<"Jumlah: "<<chicken.darah[i+1].jumlah<<" liter."<<endl;
+			cout<<"Jumlah: "<<liter<<" liter."<<endl;
 			i++;
 		}
 		bantu=bantu->next;
