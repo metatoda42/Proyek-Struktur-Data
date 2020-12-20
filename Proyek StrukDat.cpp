@@ -60,7 +60,7 @@ int main(){
 		system("CLS");
 		cout<<"Pilih: \n";
 		cout<<"1. Liat Data Pendonor\n";
-		cout<<"2. Input Data Pendonor\n";//TAMPILAN
+		cout<<"2. Register Sebagai Pendonor\n";//TAMPILAN
 		cout<<"3. Hapus Data Pendonor\n";
 		cout<<"4. Pendonoran Langsung\n";
 		cout<<"5. Pendonoran Tidak Langsung\n";
@@ -72,6 +72,7 @@ int main(){
 				cin.ignore();//biar gak langsung close
 				break;
 			case 2:
+				cout << "Register Pendonor" << endl;
 				cout<<"Masukan Nama: ";cin.getline(temp.nama,100);//cin.getline karena char array
 				cout<<"Masukan ID: ";cin.getline(temp.id,20);//sama
 				cout<<"Masukan Umur: ";cin>>temp.umur;cin.ignore();
@@ -82,7 +83,7 @@ int main(){
 				cout<<"Masukan ID yang ingin di hapus: ";cin.getline(temp.id,20);//id yang mau dihapus
 				hapusnode(temp);//hapus id yang udah diisi
 				break;
-			case 4:
+			case 4: 
 				cout<<"Masukan Data orang ingin di Donor: \n\n";
 				cout<<"Masukan Nama: ";cin.getline(temp.nama,100);
 				cout<<"Masukan ID: ";cin.getline(temp.id,100);
@@ -183,7 +184,7 @@ void cekdarah(typeinfo tako){
 	while(bantu!=NULL){
 		if(cekgolongan(bantu->info.golongan,tako.golongan)&&(bantu->info.umur>=17&&bantu->info.umur<=60)){
 			strcpy(temp3[i], bantu->info.id);
-			cout<<endl<<temp3<<endl;
+	//		cout<<endl<<temp3<<endl;
 			i++;
 		}
 		bantu=bantu->next;
