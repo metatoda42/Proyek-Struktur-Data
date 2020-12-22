@@ -50,6 +50,7 @@ int listkosong();//cek list kosong atau nggak
 void cekdarah(typeinfo tako);
 void detailreserve(typestack chicken);
 bool cekid(char a[]);
+void cetacstack(); //dipake buat debug ajah
 
 int main(){
 	bool ulang=true;//buat mengulang setiap reset.
@@ -192,11 +193,11 @@ void cekdarah(typeinfo tako){
 	}
 	bantu=awal;
 	while(bantu!=NULL){
-		i=0;
-		if(cek(temp3[i],bantu->info.id)==true){
-			total+=stack.darah[i+1].jumlah;
-			i++;
-		} 
+		for(int j=0; j<stack.top;j++){
+			if(cek(temp3[j],bantu->info.id)==true){
+				total+=stack.darah[stack.top-j].jumlah;
+			} 
+		}
 		bantu=bantu->next;
 	}
 	bool salah=false;
@@ -211,7 +212,7 @@ void cekdarah(typeinfo tako){
 		} 
 		else if(pilih==2){
 			salah = true;
-			pop();	
+			pop();
 		}
 		else cout<<"Error, coba lagi.";
 	}
@@ -223,25 +224,26 @@ void detailreserve(typestack chicken){
 	typeptr bantu;
 	bantu=awal;
 	int i=0;
-	int liter=0;
 	while(bantu!=NULL){
-		if(cekgolongan(bantu->info.id,chicken.darah[i+1].id)&&(bantu->info.umur>=17&&bantu->info.umur<=60)){
-			liter+=chicken.darah[i+1].jumlah;
-			i++;
-		}
+		int liter=0;
+			if(cekgolongan(bantu->info.id,chicken.darah[i+1].id)&&(bantu->info.umur>=17&&bantu->info.umur<=60)){
+				cout<<"Nama: "<<bantu->info.nama<<endl;
+				cout<<"Umur: "<<bantu->info.umur<<endl;
+				cout<<"Golongan: "<<bantu->info.golongan<<endl;
+				for(int j=0; j<stack.top; j++){
+					if(cekgolongan(bantu->info.id,chicken.darah[j+1].id)&&(bantu->info.umur>=17&&bantu->info.umur<=60)){
+						liter+=chicken.darah[stack.top-j].jumlah;
+					}
+				}
+				cout<<"Jumlah: "<<liter<<" liter."<<endl;
+				liter=0;
+			}
+		i++;
+		
 		bantu=bantu->next;
 	}
-	bantu=awal;
-	while(bantu!=NULL){
-		if(cekgolongan(bantu->info.id,chicken.darah[i+1].id)&&(bantu->info.umur>=17&&bantu->info.umur<=60)){
-			cout<<"Nama: "<<bantu->info.nama<<endl;
-			cout<<"Umur: "<<bantu->info.umur<<endl;
-			cout<<"Golongan: "<<bantu->info.golongan<<endl;
-			cout<<"Jumlah: "<<liter<<" liter."<<endl;
-			i++;
-		}
-		bantu=bantu->next;
-	}
+		
+	
 }
 
 void buatlistbaru(){//buat list baru tapi kosong
@@ -348,13 +350,14 @@ void pop(){
 	else{
 	IP=stack.darah[stack.top];
 	stack.top--;
+	cetakstack();
 	}; 
 }
 
 void cetakstack(){
 	int i=0;
 	while (i<=stack.top){
-		cout << " " << stack.darah[i].id << endl;
+		cout << " " << stack.darah[i].jumlah << endl;
 		i++;
 	}
 }
