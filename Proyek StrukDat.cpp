@@ -31,7 +31,7 @@ struct typenode{//ini typenode untuk membuat node
 	typeptr next;
 };
 typeptr awal, akhir;
-
+int jumlahterdaftar=0;
 bool valid = false;
 
 void buatstack();
@@ -48,7 +48,7 @@ void hapusnode(typeinfo IH);//hapus node
 void bacamaju();//baca node iya masih pake fungsi yang dulu pas bikin pr, iya mendaur ulang sehat.
 int listkosong();//cek list kosong atau nggak
 void cekdarah(typeinfo tako);
-void detailreserve(typestack chicken);
+void detailreserve(char(*)[20]);
 bool cekid(char a[]);
 void cetacstack(); //dipake buat debug ajah
 
@@ -79,6 +79,7 @@ int main(){
 				cout<<"Masukan ID: ";cin.getline(temp.id,20);//sama
 				cout<<"Masukan Umur: ";cin>>temp.umur;cin.ignore();
 				cout<<"Masukan Golongan Darah: ";cin.getline(temp.golongan,3);//karena AB dua digit jadi dibikin char array
+				jumlahterdaftar++;
 				sisipnode(temp);//masukin temp
 				break;
 			case 3:
@@ -154,9 +155,12 @@ bool cekgolongan(char pendonor[], char penerima[]){//fungsi untuk membandingkan 
 	char golB[3]={'B'};
 	char golO[3]={'O'};
 	char golAB[3]={'A','B'};
+	if(pendonor==NULL||penerima==NULL) return false;
 	if(cek(pendonor,penerima))return true;//menggunakan fungsi cek() karena char array
-	else if(cek(pendonor,golO))return true;//kalo pendonornya O berarti semuanya bisa (iyakan?)
-	else if(penerima==golAB)return true;//kalo penerimanya AB berarti semuanya bisa (iyakan?)
+	else return false;
+	if(pendonor==golO)return true;//kalo pendonornya O berarti semuanya bisa (iyakan?)
+	else return false;
+	if(penerima==golAB)return true;//kalo penerimanya AB berarti semuanya bisa (iyakan?)
 	else return false;
 }
 
@@ -184,22 +188,29 @@ void cekdarah(typeinfo tako){
 	int total=0;
 	int i=0,pilih;
 	while(bantu!=NULL){
-		if(cekgolongan(bantu->info.golongan,tako.golongan)&&(bantu->info.umur>=17&&bantu->info.umur<=60)){
+		if(cekgolongan(bantu->info.golongan,tako.golongan)){
+		    cout<<tako.golongan<<" "<<bantu->info.golongan<<endl;
 			strcpy(temp3[i], bantu->info.id);
-	//		cout<<endl<<temp3<<endl;
+	//		cout<<endl<<temp3<<endl
 			i++;
 		}
 		bantu=bantu->next;
 	}
-	bantu=awal;
-	while(bantu!=NULL){
-		for(int j=0; j<stack.top;j++){
-			if(cek(temp3[j],bantu->info.id)==true){
-				total+=stack.darah[stack.top-j].jumlah;
-			} 
-		}
-		bantu=bantu->next;
+	for(int i=0; i<jumlahterdaftar; i++){
+	    cout<<"temp3: "<<temp3[i]<<endl;
 	}
+	for(int j=0; j<jumlahterdaftar;j++){
+		for(int k=1; k<=stack.top; k++){
+		    cout<<"\nLoop "<<j<<", "<<k<<endl;
+			if(cek(temp3[j],stack.darah[k].id)==true){
+			    cout<<"--->"<<j<<", "<<k<<endl;
+				total+=stack.darah[k].jumlah;
+			}
+		}
+	}
+
+
+	
 	bool salah=false;
 	while(salah==false){
 		cout<<"Total: "<<total<<endl<<endl;
@@ -208,7 +219,7 @@ void cekdarah(typeinfo tako){
 		cout<<"Pilih: ";cin>>pilih;
 		if(pilih==1){
 			salah=true;
-			detailreserve(stack);
+			detailreserve(temp3);
 		} 
 		else if(pilih==2){
 			salah = true;
@@ -220,28 +231,29 @@ void cekdarah(typeinfo tako){
 	
 }
 
-void detailreserve(typestack chicken){
+void detailreserve(char temp4[max][20]){
 	typeptr bantu;
 	bantu=awal;
 	int i=0;
+	int liter=0;
 	while(bantu!=NULL){
-		int liter=0;
-			if(cekgolongan(bantu->info.id,chicken.darah[i+1].id)&&(bantu->info.umur>=17&&bantu->info.umur<=60)){
+		for(int i=0; i<stack.top; i++){
+			if(cekgolongan(temp4[i],stack.darah[i+1].id)&&(cek(bantu->info.id,temp4[i]))==true){
 				cout<<"Nama: "<<bantu->info.nama<<endl;
 				cout<<"Umur: "<<bantu->info.umur<<endl;
 				cout<<"Golongan: "<<bantu->info.golongan<<endl;
 				for(int j=0; j<stack.top; j++){
-					if(cekgolongan(bantu->info.id,chicken.darah[j+1].id)&&(bantu->info.umur>=17&&bantu->info.umur<=60)){
-						liter+=chicken.darah[stack.top-j].jumlah;
+					if(cekgolongan(temp4[j],stack.darah[j+1].id)&&(bantu->info.umur>=17&&bantu->info.umur<=60)==true){
+						liter+=stack.darah[stack.top-j].jumlah;
 					}
 				}
 				cout<<"Jumlah: "<<liter<<" liter."<<endl;
 				liter=0;
 			}
-		i++;
-		
+		}
 		bantu=bantu->next;
 	}
+		
 		
 	
 }
@@ -375,4 +387,5 @@ bool cekid(char a[]){
 	}
 	else return false;
 }
+
 
